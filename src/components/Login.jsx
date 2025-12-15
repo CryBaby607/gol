@@ -42,9 +42,7 @@ const Login = () => {
     }, 1500);
   };
 
-  const handleSocialLogin = (provider) => {
-    alert(`Iniciar sesión con ${provider} (funcionalidad de demostración)`);
-  };
+  // Se eliminó la función handleSocialLogin ya que no se utiliza.
 
   const handleForgotPassword = () => {
     alert('Redirigiendo al formulario de recuperación de contraseña');
@@ -166,46 +164,9 @@ const Login = () => {
             </button>
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                O continúa con
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              type="button"
-              onClick={() => handleSocialLogin('Google')}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <i className="fab fa-google text-red-500 mr-2"></i>
-              Google
-            </button>
-            <button 
-              type="button"
-              onClick={() => handleSocialLogin('Facebook')}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <i className="fab fa-facebook text-blue-600 mr-2"></i>
-              Facebook
-            </button>
-          </div>
         </form>
       </div>
 
-      <div className="text-center text-sm text-gray-600">
-        <p>
-          Al iniciar sesión, aceptas nuestros 
-          <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 ml-1">Términos de servicio</a> 
-          y 
-          <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 ml-1">Política de privacidad</a>.
-        </p>
-      </div>
     </div>
   );
 };

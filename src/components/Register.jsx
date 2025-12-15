@@ -9,8 +9,6 @@ const Register = () => {
     username: '',
     password: '',
     confirmPassword: '',
-    terms: false,
-    newsletter: false
   });
   
   const [showPassword, setShowPassword] = useState(false);
@@ -95,10 +93,10 @@ const Register = () => {
   };
 
   const handleInputChange = (e) => {
-    const { name, value, type, checked } = e.target;
+    const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: value
     }));
 
     if (name === 'password') {
@@ -135,7 +133,7 @@ const Register = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     
-    const { firstName, lastName, email, username, password, confirmPassword, terms } = formData;
+    const { firstName, lastName, email, username, password, confirmPassword } = formData;
     
     // Validaciones
     if (!firstName || !lastName || !email || !username || !password || !confirmPassword) {
@@ -158,11 +156,6 @@ const Register = () => {
       return;
     }
     
-    if (!terms) {
-      alert('Debes aceptar los términos y condiciones');
-      return;
-    }
-    
     setIsLoading(true);
     
     // Simulación de registro
@@ -171,10 +164,6 @@ const Register = () => {
       alert('¡Registro exitoso! Tu cuenta ha sido creada. Redirigiendo...');
       navigate('/');
     }, 1500);
-  };
-
-  const handleSocialRegister = (provider) => {
-    alert(`Registrarse con ${provider} (funcionalidad de demostración)`);
   };
 
   return (
@@ -375,50 +364,6 @@ const Register = () => {
             )}
           </div>
 
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input 
-                id="terms" 
-                name="terms" 
-                type="checkbox" 
-                required
-                checked={formData.terms}
-                onChange={handleInputChange}
-                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
-              />
-            </div>
-            <div className="ml-3 text-sm">
-              <label htmlFor="terms" className="text-gray-700">
-                Acepto los 
-                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 ml-1">
-                  Términos de servicio
-                </a> 
-                y la 
-                <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 ml-1">
-                  Política de privacidad
-                </a>
-              </label>
-            </div>
-          </div>
-
-          <div className="flex items-start">
-            <div className="flex items-center h-5">
-              <input 
-                id="newsletter" 
-                name="newsletter" 
-                type="checkbox"
-                checked={formData.newsletter}
-                onChange={handleInputChange}
-                className="h-4 w-4 text-emerald-600 focus:ring-emerald-500 border-gray-300 rounded"
-              />
-            </div>
-            <div className="ml-3 text-sm">
-              <label htmlFor="newsletter" className="text-gray-700">
-                Quiero recibir novedades sobre quinielas y promociones especiales
-              </label>
-            </div>
-          </div>
-
           <div>
             <button 
               type="submit"
@@ -436,46 +381,9 @@ const Register = () => {
             </button>
           </div>
 
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <div className="w-full border-t border-gray-300"></div>
-            </div>
-            <div className="relative flex justify-center text-sm">
-              <span className="px-2 bg-white text-gray-500">
-                O regístrate con
-              </span>
-            </div>
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
-            <button 
-              type="button"
-              onClick={() => handleSocialRegister('Google')}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <i className="fab fa-google text-red-500 mr-2"></i>
-              Google
-            </button>
-            <button 
-              type="button"
-              onClick={() => handleSocialRegister('Facebook')}
-              className="w-full inline-flex justify-center py-3 px-4 border border-gray-300 rounded-lg shadow-sm bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
-            >
-              <i className="fab fa-facebook text-blue-600 mr-2"></i>
-              Facebook
-            </button>
-          </div>
         </form>
       </div>
 
-      <div className="text-center text-sm text-gray-600">
-        <p>
-          ¿Eres un administrador de ligas? 
-          <a href="#" className="font-medium text-emerald-600 hover:text-emerald-500 ml-1">
-            Contáctanos para crear quinielas personalizadas
-          </a>
-        </p>
-      </div>
     </div>
   );
 };
