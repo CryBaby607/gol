@@ -1,7 +1,7 @@
-// src/pages/user/DashboardPage.jsx
+// src/pages/user/Dashboard.jsx
 
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout'; // Nueva importación
+import DashboardLayout from '../../components/DashboardLayout';
 
 const UserDashboardPage = () => {
   return (

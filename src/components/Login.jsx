@@ -1,3 +1,5 @@
+// crybaby607/gol/gol-648c4a2ffd8f9d2a8ab815316cbe6caf1bf54792/src/components/Login.jsx
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -27,18 +29,23 @@ const Login = () => {
       return;
     }
     
+    // Si la contraseña es menor a 6 caracteres, muestra una alerta
     if (password.length < 6) {
       alert('La contraseña debe tener al menos 6 caracteres');
       return;
     }
     
     setIsLoading(true);
+
+    // LÓGICA DE SIMULACIÓN DE ROLES Y REDIRECCIÓN
+    const isAdmin = email === 'admin@turigol.com';
+    const redirectPath = isAdmin ? '/dashboard/admin' : '/dashboard/user';
     
     // Simulación de inicio de sesión
     setTimeout(() => {
       setIsLoading(false);
-      alert('¡Inicio de sesión exitoso! Redirigiendo...');
-      navigate('/');
+      alert(`¡Inicio de sesión exitoso! Redirigiendo al ${isAdmin ? 'Panel de Administrador' : 'Panel de Usuario'}...`);
+      navigate(redirectPath); // Redirección basada en el rol simulado
     }, 1500);
   };
 
@@ -87,7 +94,7 @@ const Login = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 className="pl-10 appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-lg input-focus focus:outline-none focus:z-10 sm:text-sm"
-                placeholder="ejemplo@correo.com"
+                placeholder="ejemplo@correo.com (o admin@turigol.com)"
               />
             </div>
           </div>

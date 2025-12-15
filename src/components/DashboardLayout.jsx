@@ -16,6 +16,9 @@ const Sidebar = ({ isAdmin }) => {
         { path: '/dashboard/user/history', name: 'Historial', icon: 'fas fa-history' },
       ];
 
+  // Determinar la clase de resaltado para el fondo del sidebar
+  const bgColor = isAdmin ? 'bg-red-700 hover:bg-red-800' : 'bg-emerald-600 hover:bg-emerald-700';
+
   return (
     <div className="w-64 bg-gray-900 text-white min-h-screen p-4 flex flex-col">
       <div className="p-2 rounded-lg font-bold text-2xl mb-8">
@@ -31,7 +34,9 @@ const Sidebar = ({ isAdmin }) => {
             <li key={link.path}>
               <Link 
                 to={link.path} 
-                className="flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:bg-emerald-600 hover:text-white transition-colors"
+                // Clase dinámica para el enlace activo/hover
+                className={`flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white transition-colors 
+                ${location.pathname === link.path ? bgColor : 'hover:bg-gray-700'}`}
               >
                 <i className={`${link.icon} w-5`}></i>
                 <span className="font-medium">{link.name}</span>
@@ -58,7 +63,6 @@ const DashboardLayout = ({ children, isAdmin }) => {
     <div className="flex min-h-screen">
       <Sidebar isAdmin={isAdmin} />
       <div className="flex-grow flex flex-col">
-        {/* Un Header simple para el área de contenido si se necesita un título o algo así */}
         <header className="bg-white shadow-sm p-4 border-b border-gray-200">
             <h1 className="text-xl font-semibold text-gray-800">
                 {isAdmin ? "Panel de Administrador" : "Panel de Usuario"}

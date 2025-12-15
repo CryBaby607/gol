@@ -3,7 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-import DashboardPage from './pages/DashboardPage'; // <-- Nueva importación
+// IMPORTACIONES ACTUALIZADAS PARA LA ESTRUCTURA ANIDADA
+import UserDashboardPage from './pages/user/Dashboard'; 
+import AdminDashboardPage from './pages/admin/Dashboard';
 
 function App() {
   return (
@@ -12,7 +14,9 @@ function App() {
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} /> {/* <-- Nueva ruta */}
+        {/* RUTAS ACTUALIZADAS */}
+        <Route path="/dashboard/user" element={<UserDashboardPage />} />
+        <Route path="/dashboard/admin" element={<AdminDashboardPage />} />
       </Routes>
     </div>
   );

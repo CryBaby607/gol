@@ -1,7 +1,7 @@
-// src/pages/admin/DashboardPage.jsx
+// src/pages/admin/Dashboard.jsx
 
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout'; // Nueva importación
+import DashboardLayout from '../../components/DashboardLayout';
 
 const AdminDashboardPage = () => {
   return (
