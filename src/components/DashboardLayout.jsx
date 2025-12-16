@@ -1,8 +1,9 @@
-// src/components/DashboardLayout.jsx
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 
 const Sidebar = ({ isAdmin }) => {
+  const location = useLocation();
+
   const links = isAdmin
     ? [
         { path: '/dashboard/admin', name: 'Resumen Admin', icon: 'fas fa-chart-line' },
@@ -11,7 +12,8 @@ const Sidebar = ({ isAdmin }) => {
         { path: '/dashboard/admin/users', name: 'Gestionar Usuarios', icon: 'fas fa-users' },
       ]
     : [
-        { path: '/dashboard/user', name: 'Mis Quinielas', icon: 'fas fa-trophy' },
+        { path: '/dashboard/user', name: 'Resumen', icon: 'fas fa-chart-line' },
+        { path: '/dashboard/user/quinielas', name: 'Mis Quinielas', icon: 'fas fa-trophy' },
         { path: '/dashboard/user/profile', name: 'Mi Perfil', icon: 'fas fa-user-circle' },
         { path: '/dashboard/user/history', name: 'Historial', icon: 'fas fa-history' },
       ];

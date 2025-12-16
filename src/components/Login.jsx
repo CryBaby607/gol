@@ -1,5 +1,3 @@
-// crybaby607/gol/gol-648c4a2ffd8f9d2a8ab815316cbe6caf1bf54792/src/components/Login.jsx
-
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 

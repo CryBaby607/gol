@@ -1,4 +1,3 @@
-// src/pages/admin/CreateQuiniela.jsx
 import React, { useState } from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 
