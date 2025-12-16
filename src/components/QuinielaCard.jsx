@@ -1,4 +1,7 @@
+// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/components/QuinielaCard.jsx (modificado)
+
 import React from 'react';
+import { Link } from 'react-router-dom'; // Importar Link para la navegación
 
 const QuinielaCard = ({ quiniela }) => {
   const { 
@@ -13,9 +16,12 @@ const QuinielaCard = ({ quiniela }) => {
     textoBoton
   } = quiniela;
 
-  const handleJoin = () => {
-    alert(`¡Redirigiendo para unirte a "${titulo}"!`);
-  };
+  // Ya no necesitamos handleJoin() si usamos Link
+  // const handleJoin = () => {
+  //   alert(`¡Redirigiendo para unirte a "${titulo}"!`);
+  // };
+
+  const targetPath = `/dashboard/user/quiniela/${id}`; // Nueva ruta dinámica
 
   return (
     <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 transition-transform duration-300 hover:-translate-y-1 hover:shadow-xl">
@@ -36,12 +42,12 @@ const QuinielaCard = ({ quiniela }) => {
           <div className="text-sm text-gray-500">{tiempo.texto}</div>
         </div>
       </div>
-      <button 
-        onClick={handleJoin}
-        className={`w-full ${color.btn} hover:${color.btnHover} text-white font-bold py-3 rounded-lg transition-colors`}
+      <Link 
+        to={targetPath} // Usamos Link para navegar
+        className={`w-full flex justify-center ${color.btn} hover:${color.btnHover} text-white font-bold py-3 rounded-lg transition-colors`}
       >
         {textoBoton}
-      </button>
+      </Link>
     </div>
   );
 };

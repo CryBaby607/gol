@@ -1,22 +1,46 @@
+// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/components/DashboardLayout.jsx
+
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+
+// Componente helper para el badge (Contador dinámico)
+const Badge = ({ count, color = 'bg-red-500' }) => (
+  <span className={`ml-auto inline-flex items-center justify-center px-2 py-0.5 text-xs font-bold leading-none text-white ${color} rounded-full`}>
+    {count}
+  </span>
+);
 
 const Sidebar = ({ isAdmin }) => {
   const location = useLocation();
 
-  const links = isAdmin
-    ? [
-        { path: '/dashboard/admin', name: 'Resumen Admin', icon: 'fas fa-chart-line' },
-        { path: '/dashboard/admin/create', name: 'Crear Quiniela', icon: 'fas fa-plus-circle' },
-        { path: '/dashboard/admin/manage', name: 'Gestionar Quinielas', icon: 'fas fa-clipboard-list' },
-        { path: '/dashboard/admin/users', name: 'Gestionar Usuarios', icon: 'fas fa-users' },
+  // Definición de enlaces para el usuario (se eliminó Hacer Pronósticos)
+  const userLinks = [
+    {
+      section: 'Principal',
+      items: [
+        { path: '/dashboard/user', name: 'Inicio', icon: 'fas fa-home' },
+        { path: '/dashboard/user/quinielas', name: 'Mis Quinielas', icon: 'fas fa-trophy', badgeCount: 3 }, // 3 activas
+        { path: '/dashboard/user/join', name: 'Unirme a Quinielas', icon: 'fas fa-plus-square' },
+        // Eliminado: Hacer Pronósticos
       ]
-    : [
-        { path: '/dashboard/user', name: 'Resumen', icon: 'fas fa-chart-line' },
-        { path: '/dashboard/user/quinielas', name: 'Mis Quinielas', icon: 'fas fa-trophy' },
-        { path: '/dashboard/user/profile', name: 'Mi Perfil', icon: 'fas fa-user-circle' },
+    },
+    {
+      section: 'Resultados',
+      items: [
+        { path: '/dashboard/user/results', name: 'Ver Resultados', icon: 'fas fa-poll' },
         { path: '/dashboard/user/history', name: 'Historial', icon: 'fas fa-history' },
-      ];
+      ]
+    },
+  ];
+
+  const adminLinks = [
+    { path: '/dashboard/admin', name: 'Resumen Admin', icon: 'fas fa-chart-line' },
+    { path: '/dashboard/admin/create', name: 'Crear Quiniela', icon: 'fas fa-plus-circle' },
+    { path: '/dashboard/admin/manage', name: 'Gestionar Quinielas', icon: 'fas fa-clipboard-list' },
+    { path: '/dashboard/admin/users', name: 'Gestionar Usuarios', icon: 'fas fa-users' },
+  ];
+
+  const links = isAdmin ? adminLinks : userLinks;
 
   // Determinar la clase de resaltado para el fondo del sidebar
   const bgColor = isAdmin ? 'bg-red-700 hover:bg-red-800' : 'bg-emerald-600 hover:bg-emerald-700';
@@ -31,8 +55,36 @@ const Sidebar = ({ isAdmin }) => {
         </span>
       </div>
       <nav className="flex-grow">
-        <ul className="space-y-2">
-          {links.map((link) => (
+        <ul className="space-y-4">
+          {/* Renderizado para el usuario con secciones */}
+          {!isAdmin && links.map((group, groupIndex) => (
+            <li key={groupIndex}>
+                <h4 className="text-xs font-semibold uppercase text-gray-500 mb-2 mt-4 first:mt-0 px-3">{group.section}</h4>
+                <ul className="space-y-2">
+                    {group.items.map((link) => (
+                      <li key={link.path}>
+                        <Link 
+                          to={link.path} 
+                          // Clase dinámica para el enlace activo/hover (manejo especial para el path raíz /dashboard/user)
+                          className={`flex items-center space-x-3 p-3 rounded-lg text-gray-300 hover:text-white transition-colors 
+                          ${location.pathname.startsWith(link.path) && link.path !== '/dashboard/user'
+                            ? bgColor 
+                            : location.pathname === link.path 
+                              ? bgColor 
+                              : 'hover:bg-gray-700'}`}
+                        >
+                          <i className={`${link.icon} w-5`}></i>
+                          <span className="font-medium">{link.name}</span>
+                          {link.badgeCount && <Badge count={link.badgeCount} color={link.badgeColor} />}
+                        </Link>
+                      </li>
+                    ))}
+                </ul>
+            </li>
+          ))}
+
+          {/* Renderizado original para el administrador */}
+          {isAdmin && links.map((link) => (
             <li key={link.path}>
               <Link 
                 to={link.path} 
@@ -45,6 +97,7 @@ const Sidebar = ({ isAdmin }) => {
               </Link>
             </li>
           ))}
+          
         </ul>
       </nav>
       <div className="mt-auto pt-4 border-t border-gray-700">
