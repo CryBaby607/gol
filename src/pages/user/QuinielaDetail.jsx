@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-
-// Componente para manejar la selección 1X2 (copiado y ajustado para PredictionForm)
 const MatchPredictionForm = ({ match, onPredictionChange, index }) => {
-    // ... (El contenido de PredictionForm.jsx de la respuesta anterior)
     const [prediction, setPrediction] = useState(match.userPrediction || '');
 
     const handleSelect = (value) => {
@@ -22,14 +19,11 @@ const MatchPredictionForm = ({ match, onPredictionChange, index }) => {
             if (value === '2') return `${baseClasses} bg-red-600 text-white border-red-600`;
         }
         
-        // Clases por defecto (inactivo)
         return `${baseClasses} bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200`;
     };
 
     return (
         <div className="flex items-center justify-between space-x-4 p-4 bg-gray-50 rounded-lg shadow-inner border border-gray-200">
-          
-          {/* Información del Partido */}
           <div className="flex-grow flex items-center space-x-4">
             <span className="text-sm font-semibold text-gray-500 w-12 flex-shrink-0">P{index + 1}:</span>
             <div className="flex-grow text-gray-900 font-semibold">{match.local} vs {match.visitante}</div>
@@ -37,40 +31,15 @@ const MatchPredictionForm = ({ match, onPredictionChange, index }) => {
               {new Date(match.date).toLocaleDateString('es-ES')}
             </div>
           </div>
-
-          {/* Selector 1X2 */}
           <div className="flex space-x-2 flex-shrink-0">
-            <button
-              type="button"
-              onClick={() => handleSelect('1')}
-              className={getButtonClass('1')}
-              title="Local (1)"
-            >
-              1
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSelect('X')}
-              className={getButtonClass('X')}
-              title="Empate (X)"
-            >
-              X
-            </button>
-            <button
-              type="button"
-              onClick={() => handleSelect('2')}
-              className={getButtonClass('2')}
-              title="Visitante (2)"
-            >
-              2
-            </button>
+            <button type="button" onClick={() => handleSelect('1')} className={getButtonClass('1')}>1</button>
+            <button type="button" onClick={() => handleSelect('X')} className={getButtonClass('X')}>X</button>
+            <button type="button" onClick={() => handleSelect('2')} className={getButtonClass('2')}>2</button>
           </div>
         </div>
     );
 };
 
-
-// Datos simulados específicos para una quiniela
 const quinielaData = {
     id: 123,
     titulo: 'LaLiga - Jornada 29',
@@ -90,7 +59,7 @@ const quinielaData = {
 };
 
 const QuinielaDetail = () => {
-    const { id } = useParams(); // Obtener el ID de la quiniela de la URL
+    const { id } = useParams();
     const [currentPredictions, setCurrentPredictions] = useState(
         quinielaData.matches.reduce((acc, match) => {
             acc[match.id] = match.userPrediction || '';
@@ -108,21 +77,16 @@ const QuinielaDetail = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        
         const allPredicted = Object.values(currentPredictions).every(p => p !== '');
-        
         if (!allPredicted) {
-            alert('Por favor, completa el pronóstico (1, X o 2) para cada uno de los 9 partidos.');
+            alert('Por favor, completa el pronóstico para todos los partidos.');
             return;
         }
-        
         setIsLoading(true);
-
-        console.log(`Guardando pronósticos para Quiniela ${id}:`, currentPredictions);
-        
+        console.log(`Guardando...`, currentPredictions);
         setTimeout(() => {
             setIsLoading(false);
-            alert(`¡Pronósticos para "${quinielaData.titulo}" guardados con éxito!`);
+            alert(`¡Guardado con éxito!`);
         }, 2000);
     };
     
@@ -130,39 +94,37 @@ const QuinielaDetail = () => {
     const totalMatches = quinielaData.matches.length;
 
     return (
-        <DashboardLayout isAdmin={false}>
-            <div className="bg-white p-6 rounded-xl shadow-md">
-                <h2 className="text-2xl font-bold text-emerald-800 mb-2">{quinielaData.titulo}</h2>
-                <p className="text-sm text-gray-500 mb-6">Liga: {quinielaData.liga} | Estado: {quinielaData.status}</p>
+        <div className="bg-white p-6 rounded-xl shadow-md">
+            <h2 className="text-2xl font-bold text-emerald-800 mb-2">{quinielaData.titulo}</h2>
+            <p className="text-sm text-gray-500 mb-6">Liga: {quinielaData.liga} | Estado: {quinielaData.status}</p>
 
-                <form onSubmit={handleSubmit} className="space-y-6">
-                    <div className="space-y-4">
-                        {quinielaData.matches.map((match, index) => (
-                            <MatchPredictionForm 
-                                key={match.id}
-                                match={match}
-                                index={index}
-                                onPredictionChange={handlePredictionChange}
-                            />
-                        ))}
-                    </div>
+            <form onSubmit={handleSubmit} className="space-y-6">
+                <div className="space-y-4">
+                    {quinielaData.matches.map((match, index) => (
+                        <MatchPredictionForm 
+                            key={match.id}
+                            match={match}
+                            index={index}
+                            onPredictionChange={handlePredictionChange}
+                        />
+                    ))}
+                </div>
 
-                    <div className="sticky bottom-0 z-10 p-4 bg-emerald-50 rounded-xl border border-emerald-300 text-sm flex justify-between items-center shadow-lg">
-                        <span className="font-semibold text-gray-800">
-                            {completedCount} de {totalMatches} pronósticos completados.
-                        </span>
-                        <button 
-                            type="submit"
-                            disabled={isLoading || completedCount < totalMatches}
-                            className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
-                        >
-                            <i className={isLoading ? "fas fa-spinner fa-spin" : "fas fa-save"}></i>
-                            <span>{isLoading ? 'Guardando...' : 'Guardar y Enviar Quiniela'}</span>
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </DashboardLayout>
+                <div className="sticky bottom-0 z-10 p-4 bg-emerald-50 rounded-xl border border-emerald-300 text-sm flex justify-between items-center shadow-lg">
+                    <span className="font-semibold text-gray-800">
+                        {completedCount} de {totalMatches} pronósticos completados.
+                    </span>
+                    <button 
+                        type="submit"
+                        disabled={isLoading || completedCount < totalMatches}
+                        className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-2 px-5 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center space-x-2"
+                    >
+                        <i className={isLoading ? "fas fa-spinner fa-spin" : "fas fa-save"}></i>
+                        <span>{isLoading ? 'Guardando...' : 'Guardar'}</span>
+                    </button>
+                </div>
+            </form>
+        </div>
     );
 };
 
