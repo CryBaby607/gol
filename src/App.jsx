@@ -1,8 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/Login';
+import Register from './pages/Register'; 
 
 // IMPORTACIONES DE DASHBOARD DE USUARIO
 import UserDashboardPage from './pages/user/Dashboard'; 
@@ -10,7 +10,7 @@ import MisQuinielasPage from './pages/user/MisQuinielas';
 import JoinQuinielas from './pages/user/JoinQuinielas';
 import ViewResults from './pages/user/ViewResults';
 import History from './pages/user/History';
-import QuinielaDetail from './pages/user/QuinielaDetail'; // NUEVA IMPORTACIÓN
+import QuinielaDetail from './pages/user/QuinielaDetail';
 
 // IMPORTACIONES DE DASHBOARD DE ADMINISTRADOR
 import AdminDashboardPage from './pages/admin/Dashboard';
@@ -22,7 +22,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/register" element={<Register />} />
         
         {/* RUTAS DEL DASHBOARD DE USUARIO */}
         <Route path="/dashboard/user" element={<UserDashboardPage />} />
