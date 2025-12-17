@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext'; // Importar el hook de autenticación
+import { useAuth } from '../context/AuthContext'; 
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -14,22 +14,31 @@ const Register = () => {
   
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null); // Nuevo estado para errores
-  const [successMessage, setSuccessMessage] = useState(null); // Nuevo estado para mensaje de éxito
+  const [error, setError] = useState(null); 
+  const [successMessage, setSuccessMessage] = useState(null); 
   
   const navigate = useNavigate();
-  const { signUp } = useAuth(); // Usar la función de registro de Supabase
+  const { signUp } = useAuth(); 
 
-  // ... (passwordStrength, passwordChecks, passwordMatch, isValidEmail se mantienen) ...
+  const handleChange = (e) => {
+    setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
+  };
 
-  const handleSubmit = async (e) => { // La función ahora es async
+  const isValidEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
     setSuccessMessage(null);
     
     const { firstName, lastName, email, username, password, confirmPassword } = formData;
     
-    // Validaciones (se mantienen para control de frontend)
     if (!firstName || !lastName || !email || !username || !password || !confirmPassword) {
       setError('Por favor, completa todos los campos obligatorios');
       return;
@@ -40,8 +49,8 @@ const Register = () => {
       return;
     }
     
-    if (password.length < 8) {
-      setError('La contraseña debe tener al menos 8 caracteres');
+    if (password.length < 6) {
+      setError('La contraseña debe tener al menos 6 caracteres');
       return;
     }
     
@@ -52,73 +61,161 @@ const Register = () => {
     
     setIsLoading(true);
     
-    // LÓGICA DE REGISTRO SUPABASE
-    const { 
-      data, 
-      error: supabaseError 
-    } = await signUp(email, password, {
-      data: { // Guardar datos adicionales como metadata
+    const { data, error: supabaseError } = await signUp(email, password, {
+      data: { 
         first_name: firstName,
         last_name: lastName,
         username: username,
-        role: 'user', // Establecer un rol por defecto
+        role: 'user',
       }
     });
     
     setIsLoading(false);
 
     if (supabaseError) {
-      // Manejar errores de Supabase (ej: usuario ya existe)
       setError(supabaseError.message);
     } else if (data.user) {
-      // Registro exitoso. Supabase enviará un email de confirmación.
-      setSuccessMessage('¡Registro exitoso! Por favor, revisa tu correo electrónico para confirmar tu cuenta y poder iniciar sesión.');
-      // Opcional: Redirigir al login después de un breve periodo
-      setTimeout(() => navigate('/login'), 5000); 
+      setSuccessMessage('¡Cuenta creada con éxito! Revisa tu correo para confirmar.');
+      setTimeout(() => navigate('/login'), 3000); 
     }
   };
 
   return (
-    <main className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <main className="min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-gray-50">
       <div className="max-w-md w-full space-y-8">
-        {/* ... (Header) ... */}
+        <div className="text-center">
+          <h2 className="mt-6 text-3xl font-extrabold text-gray-900">
+            Crea tu cuenta
+          </h2>
+          <p className="mt-2 text-sm text-gray-600">
+            ¿Ya tienes cuenta?{' '}
+            <Link to="/login" className="font-medium text-emerald-600 hover:text-emerald-500">
+              Inicia sesión
+            </Link>
+          </p>
+        </div>
         
         <div className="bg-white py-8 px-4 shadow-lg rounded-2xl sm:px-10 border border-gray-100">
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            {/* Mostrar el mensaje de error o éxito */}
+          <form className="space-y-4" onSubmit={handleSubmit}>
+            
             {error && (
-                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm">
+                <div className="p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg text-sm flex items-center">
+                    <i className="fas fa-exclamation-triangle mr-2"></i>
                     {error}
                 </div>
             )}
             {successMessage && (
-                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm">
+                <div className="p-3 bg-green-100 border border-green-400 text-green-700 rounded-lg text-sm flex items-center">
+                    <i className="fas fa-check-circle mr-2"></i>
                     {successMessage}
                 </div>
             )}
 
-            {/* ... (Todos los inputs) ... */}
-            
+            {/* Inputs: Nombre y Apellido (En una fila) */}
+            <div className="grid grid-cols-2 gap-4">
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Nombre</label>
+                    <input
+                        name="firstName"
+                        type="text"
+                        required
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                    />
+                </div>
+                <div>
+                    <label className="block text-sm font-medium text-gray-700">Apellido</label>
+                    <input
+                        name="lastName"
+                        type="text"
+                        required
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+                    />
+                </div>
+            </div>
+
+            {/* Input: Username */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Usuario</label>
+              <input
+                name="username"
+                type="text"
+                required
+                value={formData.username}
+                onChange={handleChange}
+                className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+            </div>
+
+            {/* Input: Email */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Correo Electrónico</label>
+              <input
+                name="email"
+                type="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+            </div>
+
+            {/* Input: Contraseña */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Contraseña</label>
+              <div className="mt-1 relative rounded-md shadow-sm">
+                  <input
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    required
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm pr-10"
+                  />
+                   <button
+                    type="button"
+                    onClick={() => setShowPassword(!showPassword)}
+                    className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-600 cursor-pointer focus:outline-none"
+                    >
+                    <i className={`fas ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                </button>
+              </div>
+            </div>
+
+            {/* Input: Confirmar Contraseña */}
+            <div>
+              <label className="block text-sm font-medium text-gray-700">Confirmar Contraseña</label>
+              <input
+                name="confirmPassword"
+                type="password"
+                required
+                value={formData.confirmPassword}
+                onChange={handleChange}
+                className="mt-1 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-lg shadow-sm placeholder-gray-400 focus:outline-none focus:ring-emerald-500 focus:border-emerald-500 sm:text-sm"
+              />
+            </div>
+
             <div>
               <button 
                 type="submit"
                 disabled={isLoading}
-                className="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+                className="w-full flex justify-center py-3 px-4 border border-transparent text-sm font-bold rounded-lg text-white bg-emerald-600 hover:bg-emerald-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-emerald-500 transition-colors duration-300 shadow-md transform active:scale-95 disabled:opacity-50"
               >
-                <span className="absolute left-0 inset-y-0 flex items-center pl-3">
-                  {isLoading ? (
-                    <i className="fas fa-spinner fa-spin"></i>
+                 {isLoading ? (
+                    <span className="flex items-center">
+                        <i className="fas fa-spinner fa-spin animate-spin mr-2"></i> Creando...
+                    </span>
                   ) : (
-                    <i className="fas fa-user-plus"></i>
+                    'Registrarme'
                   )}
-                </span>
-                {isLoading ? 'Creando cuenta...' : 'Crear cuenta'}
               </button>
             </div>
 
           </form>
         </div>
-
       </div>
     </main>
   );
