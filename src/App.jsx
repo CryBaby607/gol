@@ -1,5 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 
 // Importaciones de páginas públicas
 import Home from './pages/Home';
@@ -9,6 +9,7 @@ import Register from './pages/Register';
 // Importaciones de componentes de estructura y protección
 import ProtectedRoute from './components/ProtectedRoute';
 import DashboardLayout from './components/DashboardLayout';
+import AdminRoute from './components/AdminRoute'; // Asegúrate de haber creado este componente
 
 // Importaciones de páginas de usuario
 import UserDashboard from './pages/user/Dashboard';
@@ -38,18 +39,13 @@ function App() {
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
 
-      {/* 2. RUTAS PROTEGIDAS Y CON LAYOUT (USUARIOS Y ADMINISTRADORES) */}
-      {/* El elemento <ProtectedRoute /> verifica si hay una sesión activa.
-        Si la hay, permite el acceso a las rutas hijas. 
-        Si no, redirige a /login.
-      */}
+      {/* 2. RUTAS PROTEGIDAS (Requieren inicio de sesión) */}
       <Route element={<ProtectedRoute />}>
           
-          {/* DashboardLayout actúa como el contenedor (Header, Sidebar, Footer) */}
+          {/* DashboardLayout gestiona el Sidebar y el Header */}
           <Route path="/dashboard" element={<DashboardLayout />}>
               
-              {/* Rutas de Usuario (Anidadas bajo /dashboard) */}
-              {/* La ruta 'index' es la landing page por defecto después del login */}
+              {/* --- Rutas Generales (Accesibles para User y Admin) --- */}
               <Route index element={<UserDashboard />} /> 
               <Route path="mis-quinielas" element={<MisQuinielas />} />
               <Route path="quiniela/:id" element={<QuinielaDetail />} />
@@ -58,14 +54,13 @@ function App() {
               <Route path="resultados" element={<ViewResults />} />
               <Route path="historial" element={<History />} />
 
-              {/* Rutas de Administrador (Anidadas bajo /dashboard/admin) */}
-              {/* NOTA SENIOR: Idealmente, las páginas de AdminDashboard y 
-                CreateQuiniela deben contener una validación adicional 
-                (ej: useAuth().user.user_metadata.role === 'admin') para 
-                asegurar el acceso basado en el rol, incluso si la ruta está protegida.
-              */}
-              <Route path="admin" element={<AdminDashboard />} />
-              <Route path="admin/crear" element={<CreateQuiniela />} />
+              {/* --- Rutas EXCLUSIVAS de Administrador --- */}
+              {/* Protegidas por AdminRoute: si no es admin, redirige */}
+              <Route element={<AdminRoute />}>
+                  <Route path="admin" element={<AdminDashboard />} />
+                  <Route path="admin/crear" element={<CreateQuiniela />} />
+                  {/* Agrega aquí más rutas de gestión (ej: manage, users) */}
+              </Route>
 
           </Route>
       </Route>
