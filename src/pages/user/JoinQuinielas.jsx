@@ -1,5 +1,4 @@
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
 import QuinielaCard from '../../components/QuinielaCard';
 
 // Contenido de la quiniela copiado de MisQuinielasPage.jsx para simular las disponibles

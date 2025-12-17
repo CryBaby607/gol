@@ -1,5 +1,5 @@
 import React from 'react';
-import DashboardLayout from '../../components/DashboardLayout';
+
 import QuinielaCard from '../../components/QuinielaCard';
 
 // Datos de ejemplo para simular las quinielas ACTIVAS del usuario

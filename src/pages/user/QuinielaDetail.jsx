@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import DashboardLayout from '../../components/DashboardLayout';
+
 
 // Componente para manejar la selección 1X2 (copiado y ajustado para PredictionForm)
 const MatchPredictionForm = ({ match, onPredictionChange, index }) => {
