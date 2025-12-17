@@ -1,4 +1,3 @@
-// src/pages/user/ViewResults.jsx
 import React from 'react';
 import DashboardLayout from '../../components/DashboardLayout';
 

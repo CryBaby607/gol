@@ -1,8 +1,6 @@
-// src/pages/user/QuinielaDetail.jsx
 import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';
-import PredictionForm from '../../components/PredictionForm'; // Reutilizando la lógica 1X2
 
 // Componente para manejar la selección 1X2 (copiado y ajustado para PredictionForm)
 const MatchPredictionForm = ({ match, onPredictionChange, index }) => {

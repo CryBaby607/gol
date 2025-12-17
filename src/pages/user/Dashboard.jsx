@@ -1,5 +1,3 @@
-// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/pages/user/Dashboard.jsx (actualizado)
-
 import React from 'react';
 import { Link } from 'react-router-dom';
 import DashboardLayout from '../../components/DashboardLayout';

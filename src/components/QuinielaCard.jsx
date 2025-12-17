@@ -1,7 +1,5 @@
-// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/components/QuinielaCard.jsx (modificado)
-
 import React from 'react';
-import { Link } from 'react-router-dom'; // Importar Link para la navegación
+import { Link } from 'react-router-dom';
 
 const QuinielaCard = ({ quiniela }) => {
   const { 

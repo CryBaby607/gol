@@ -1,16 +1,9 @@
-// src/App.jsx
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
 import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
-// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/App.jsx
 
-import React from 'react';
-import { Routes, Route } from 'react-router-dom';
-import Home from './pages/Home';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
 // IMPORTACIONES DE DASHBOARD DE USUARIO
 import UserDashboardPage from './pages/user/Dashboard'; 
 import MisQuinielasPage from './pages/user/MisQuinielas';

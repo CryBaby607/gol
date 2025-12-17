@@ -1,5 +1,3 @@
-// crybaby607/gol/gol-892b65e742b51e47da58d14b620ae39f40ba0ae3/src/components/DashboardLayout.jsx
-
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -13,7 +11,6 @@ const Badge = ({ count, color = 'bg-red-500' }) => (
 const Sidebar = ({ isAdmin }) => {
   const location = useLocation();
 
-  // Definición de enlaces para el usuario (se eliminó Hacer Pronósticos)
   const userLinks = [
     {
       section: 'Principal',
@@ -21,7 +18,6 @@ const Sidebar = ({ isAdmin }) => {
         { path: '/dashboard/user', name: 'Inicio', icon: 'fas fa-home' },
         { path: '/dashboard/user/quinielas', name: 'Mis Quinielas', icon: 'fas fa-trophy', badgeCount: 3 }, // 3 activas
         { path: '/dashboard/user/join', name: 'Unirme a Quinielas', icon: 'fas fa-plus-square' },
-        // Eliminado: Hacer Pronósticos
       ]
     },
     {
