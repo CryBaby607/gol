@@ -80,7 +80,6 @@ const CreateQuiniela = () => {
   };
 
   return (
-    <DashboardLayout isAdmin={true}>
       <div className="bg-white p-6 rounded-xl shadow-md">
         <h2 className="text-2xl font-bold text-red-700 mb-6">Crear Nueva Quiniela</h2>
         
@@ -266,7 +265,6 @@ const CreateQuiniela = () => {
         </form>
 
       </div>
-    </DashboardLayout>
   );
 };
 

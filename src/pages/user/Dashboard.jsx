@@ -1,6 +1,5 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-// Eliminamos la importación de DashboardLayout
 
 const UserDashboardPage = () => {
   // Datos simulados
@@ -9,7 +8,6 @@ const UserDashboardPage = () => {
   const currentRank = "Top 10%"; 
 
   return (
-    // Eliminamos el envoltorio <DashboardLayout>
     <div className="bg-white p-6 rounded-xl shadow-md">
       <h2 className="text-2xl font-bold text-emerald-800 mb-4">Resumen de Usuario</h2>
       <p className="text-gray-600">Bienvenido de nuevo. Revisa el estado de tus quinielas y únete a nuevas competencias.</p>

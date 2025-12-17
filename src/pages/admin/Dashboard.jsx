@@ -1,9 +1,7 @@
 import React from 'react';
-// NO importes DashboardLayout aquí, App.jsx ya lo maneja.
 
 const AdminDashboardPage = () => {
   return (
-    // Eliminamos el <DashboardLayout isAdmin={true}>
     <div className="bg-white p-6 rounded-xl shadow-md">
       <h2 className="text-2xl font-bold text-red-700 mb-4">Resumen de Administración</h2>
       <p className="text-gray-600">Panel para la gestión integral de la plataforma TuriGol. Crea nuevas quinielas y supervisa la actividad.</p>
